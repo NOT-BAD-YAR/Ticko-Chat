@@ -1,16 +1,10 @@
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/foundation.dart';
-
+import '../config.dart';
 class SocketService with ChangeNotifier {
   IO.Socket? _socket;
   
-  // Use localhost for Web, 10.0.2.2 for Android Emulator
-  String get _serverUrl {
-    if (kIsWeb) {
-      return 'http://localhost:5000';
-    }
-    return 'http://10.0.2.2:5000';
-  }
+  String get _serverUrl => Config.baseUrl;
   
   IO.Socket? get socket => _socket;
   bool get isConnected => _socket?.connected ?? false;

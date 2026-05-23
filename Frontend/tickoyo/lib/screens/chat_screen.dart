@@ -8,6 +8,7 @@ import 'dart:convert';
 import '../store/auth_provider.dart';
 import '../store/chat_provider.dart';
 import '../services/socket_service.dart';
+import '../config.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -47,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       // Access/Create Chat
       final chatRes = await http.post(
-        Uri.parse(kIsWeb ? 'http://localhost:5000/api/chat' : 'http://10.0.2.2:5000/api/chat'),
+        Uri.parse('${Config.apiUrl}/chat'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${auth.token}',
@@ -64,9 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
         // Fetch Messages
         final msgRes = await http.get(
-          Uri.parse(kIsWeb 
-            ? 'http://localhost:5000/api/message/$_chatId' 
-            : 'http://10.0.2.2:5000/api/message/$_chatId'),
+          Uri.parse('${Config.apiUrl}/message/$_chatId'),
            headers: {
             'Authorization': 'Bearer ${auth.token}',
           },
@@ -115,9 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() => _isUploading = true);
     
     try {
-      final uri = Uri.parse(kIsWeb 
-          ? 'http://localhost:5000/api/upload' 
-          : 'http://10.0.2.2:5000/api/upload');
+      final uri = Uri.parse('${Config.apiUrl}/upload');
 
       final request = http.MultipartRequest('POST', uri);
       final bytes = await file.readAsBytes();
@@ -162,9 +159,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final socketService = Provider.of<SocketService>(context, listen: false);
 
       final res = await http.post(
-        Uri.parse(kIsWeb 
-            ? 'http://localhost:5000/api/message' 
-            : 'http://10.0.2.2:5000/api/message'),
+        Uri.parse('${Config.apiUrl}/message'),
         headers: {
            'Content-Type': 'application/json',
            'Authorization': 'Bearer ${auth.token}',

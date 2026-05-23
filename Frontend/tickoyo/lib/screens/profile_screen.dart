@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import '../store/auth_provider.dart';
 import '../store/theme_provider.dart';
+import '../config.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -59,9 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<String?> _uploadImage(XFile file) async {
     setState(() => _isUploading = true);
     try {
-      final uri = Uri.parse(kIsWeb 
-          ? 'http://localhost:5000/api/upload' 
-          : 'http://10.0.2.2:5000/api/upload');
+      final uri = Uri.parse('${Config.apiUrl}/upload');
 
       final request = http.MultipartRequest('POST', uri);
       

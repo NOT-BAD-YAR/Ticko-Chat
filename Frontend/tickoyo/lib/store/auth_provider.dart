@@ -3,15 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config.dart';
 
 class AuthProvider with ChangeNotifier {
-  // Use localhost for Web, 10.0.2.2 for Android Emulator
-  String get _baseUrl {
-    if (kIsWeb) {
-      return 'http://localhost:5000/api/auth';
-    }
-    return 'http://10.0.2.2:5000/api/auth';
-  }
+  String get _baseUrl => '${Config.apiUrl}/auth';
 
   String? _token;
   Map<String, dynamic>? _user;

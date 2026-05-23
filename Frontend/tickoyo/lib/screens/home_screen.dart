@@ -5,6 +5,7 @@ import 'dart:convert';
 import '../store/auth_provider.dart';
 import '../store/chat_provider.dart';
 import 'chat_screen.dart';
+import '../config.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,24 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
        // Or better, use a service. For now, hardcode similar to AuthProvider logic or use relative if consistent.
       // API: /api/user
       
-      String baseUrl = 'http://localhost:5000/api/user';
-      // If Android Emulator:
-      // baseUrl = 'http://10.0.2.2:5000/api/user';
-      // We should really handle this better. Let's borrow from AuthProvider or just check standard way.
-      // For Windows/Web localhost is fine. For Android emulator 10.0.2.2.
-      // Since user is on Windows OS and might be running Windows App or Android Emulator, let's grab the baseUrl from AuthProvider if possible?
-      // AuthProvider._baseUrl is private.
-      // I'll stick to localhost for now as user is likely testing on Windows/Web based on "cd .\Frontend\" commands.
-      // If mobile, it might fail. But user said "app is made for both mobile and web".
-      // I'll add a helper/constant later if needed or check existing.
-      
-      // Let's use the same logic as AuthProvider (kIsWeb check).
-      // Since I can't import kIsWeb easily without flutter/foundation.
-      
-      // Check AuthProvider.dart again: it uses kIsWeb.
-      
       final response = await http.get(
-        Uri.parse('http://localhost:5000/api/user'), 
+        Uri.parse('${Config.apiUrl}/user'), 
         headers: {
           'Authorization': 'Bearer ${auth.token}',
         },
